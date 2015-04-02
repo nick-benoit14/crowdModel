@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Graph 3D animation moving dots</title>
+
+  <style>
+    html, body {font: 10pt arial; height: 100% ; width: 100%;}
+    #mygraph{height: 100%; width: 100%;}
+  </style>
+
+  <script language="javascript" type="text/javascript" src="/home/nick/Documents/Projects/crowdModel/vis/dist/vis.js"></script>
+  <script language="javascript" type="text/javascript" src="/home/nick/Documents/Projects/crowdModel/crowdModel.js"></script>
+  <script language="javascript" type="text/javascript" src="/home/nick/Documents/Projects/jquery-2.1.3.min.js"></script>
+
+  <script type="text/javascript">
+    var data = null;
+    var graph = null;
+
+    // Called when the Visualization API is loaded.
+    function drawVisualization() {
+      // create the data table.
+      data = new vis.DataSet();
+
+
+      // create the animation data
+      var tmax = 10.0;
+      var tstep = tmax / 75;
+      for (var t = 0; t < tmax; t += tstep) {
+        var tgroup = parseFloat(t.toFixed(2));
+        var value = t;
+
+
+
+
+        var totalDots = 100;
+        var numRows = 5;
+        var numColumns = totalDots/numRows;
+
+//crowdModel.js API-------------------------------------------------------------------
+        //var mngr = new dotManager();--constructor
+        //dotManager.newDot() --- initialize new dot and add to array
+        //getDot(index) --------- returns at from dot array[index]
+        //getDotState(index)----- 1, 2, 3
+
+
+var mngr = new dotManager();
+
+
+
+for(var rows=0; rows < numRows; rows++){
+
+    for(var columns = 0; columns < numColumns; columns++){ //columns
+          mngr.newDot();
+          var inIndex = columns * rows; //current value in dotManager.dotArray[]
+          var height = mngr.getDotState(inIndex);
+
+          data.add({x:rows, y:columns,z:height,filter:tgroup,style:1});
+          }
+
+      }
+
+
+/*
+        // one or multiple dots moving around the center
+        for (var dot = 0; dot < dotCount; dot++) {
+          var tdot = t + 2*pi * dot / dotCount;
+          data.add( {x:sin(tdot),y:cos(tdot),z:sin(tdot),filter:tgroup,style:value});
+          data.add( {x:sin(tdot),y:-cos(tdot),z:sin(tdot + tmax*1/2),filter:tgroup,style:value});
+        }
+
+*/
+}
+
+      // specify options
+      var options = {
+        width:  '100%',
+        height: '100%',
+        style: 'dot-size',
+        showPerspective: false,
+        showGrid: false,
+        keepAspectRatio: true,
+        verticalRatio: 1.0,
+        animationInterval: 35, // milliseconds
+        animationPreload: false,
+        animationAutoStart: true,
+        showAnimationControls:false,
+        legendLabel: 'color value',
+        cameraPosition: {
+          horizontal: -2.3750000000000004,
+          vertical: 0.26500000000000007,
+          distance: 5
+        }
+      };
+      // create our graph
+      var container = document.getElementById('mygraph');
+      graph = new vis.Graph3d(container, data, options);
+      //$('body').click(function(){console.log(graph.getCameraPosition());}); Tester for camera vaules
+}
+
+  </script>
+</head>
+
+<body onload="drawVisualization();">
+<div id="mygraph"></div>
+
+<div id="info"></div>
+</body>
+</html>
