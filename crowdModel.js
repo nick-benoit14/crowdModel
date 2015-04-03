@@ -67,21 +67,27 @@
 
     this.newDot = function(inX, inY){
 
-      var distanceFromIndex = -1;
-
-//TODO add distance calc 
-      //if(null != dotaBase){
-         //var distX = this.dotaBase[0].getXY();
-        // var distY;
-
-        // distanceFromIndex = Math.sqrt();}
-
-
         var dotHolder = new dot(inX, inY); //create new dot
         dotHolder.fillArray(); //fill array
-        dotHolder.alterProbabilities(100, true);
-        this.dotaBase[this.dotaBase.length] = dotHolder;} //add dot to array
+      //  dotHolder.alterProbabilities(100, true);
+        this.dotaBase[this.dotaBase.length] = dotHolder; //add dot to array
 
+        var distanceFromIndex = -1;
+
+        if(null != this.dotaBase){
+           var dist = this.dotaBase[0].getXY();
+           var xDist = dist.x - inX;
+           var yDist = dist.y - inY;
+
+           var totalDist = Math.sqrt((xDist*xDist) + (yDist * yDist)); //distance from index dot to individual dot
+
+           if(totalDist <= 2){dotHolder.alterProbabilities(75, true);}
+           else if(totalDist <= 5 && totalDist > 2){dotHolder.alterProbabilities(25, true);}
+           else if(totalDist <= 10 && totalDist > 5){dotHolder.alterProbabilities(5, true);}
+           else{dotHolder.alterProbabilities(10, false);}
+
+        }
+}
     this.getDot = function(index){return this.dotaBase[index];} //TODO validate input
 
     this.getDotState = function(index){

@@ -93,15 +93,15 @@ for(var rows=0; rows < numRows; rows++){
         showAnimationControls:false,
         legendLabel: 'color value',
         cameraPosition: {
-          horizontal: -2.3750000000000004,
-          vertical: 0.26500000000000007,
+          horizontal: -4.175000000000001,
+          vertical: 0.285,
           distance: 5
         }
       };
       // create our graph
       var container = document.getElementById('mygraph');
       graph = new vis.Graph3d(container, data, options);
-      //$('body').click(function(){console.log(graph.getCameraPosition());}); Tester for camera vaules
+      $('body').click(function(){console.log(graph.getCameraPosition());});
 }
 
   </script>
