@@ -25,15 +25,16 @@
       // create the animation data
       var tmax = 10.0;
       var tstep = tmax / 75;
+
+
       for (var t = 0; t < tmax; t += tstep) {
         var tgroup = parseFloat(t.toFixed(2));
-        var value = t;
 
 
 
 
-        var totalDots = 100;
-        var numRows = 5;
+        var totalDots = 300;
+        var numRows = 15;
         var numColumns = totalDots/numRows;
 
 //crowdModel.js API-------------------------------------------------------------------
@@ -45,12 +46,18 @@
 
 var mngr = new dotManager();
 
-
+var xPos = numRows;
+var yPos = numColumns/2 - 1;
+data.add({x:xPos, y:yPos + 2,z:1,filter:tgroup,style:2});
+data.add({x:xPos, y:yPos,z:1,filter:tgroup,style:2});
+data.add({x:xPos, y:yPos - 2,z:1,filter:tgroup,style:2});
+      mngr.newDot(xPos, yPos); //index stage dot should be index of 0 in dotArray[]
 
 for(var rows=0; rows < numRows; rows++){
 
     for(var columns = 0; columns < numColumns; columns++){ //columns
-          mngr.newDot();
+
+          mngr.newDot(rows, columns);
           var inIndex = columns * rows; //current value in dotManager.dotArray[]
           var height = mngr.getDotState(inIndex);
 
@@ -101,7 +108,8 @@ for(var rows=0; rows < numRows; rows++){
 </head>
 
 <body onload="drawVisualization();">
-<div id="mygraph"></div>
+<div id="mygraph">
+</div>
 
 <div id="info"></div>
 </body>

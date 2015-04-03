@@ -1,15 +1,36 @@
 
-    function dot(){
+    function dot(inX, inY){
 
         this.probabilityArray = [];
         this.lastActivityLevel = false;
-
+        this.dotCoordinates = {x:inX, y:inY};
 
         this.fillArray = function(){
+
+              var activityDispositionIncrement =  Math.floor(Math.random() * 66) + 33; //returns value between 33 - 100
+
           for(var i=0; i < 100; i++){
-                if(i % 5 == 0){this.probabilityArray[i] = true;}
-                else{this.probabilityArray[i] = false;}
+              if(i == activityDispositionIncrement){this.probabilityArray[i] = true;}
+              else{this.probabilityArray[i] = false;} //fills array with inital all false values
             }}
+
+        this.alterProbabilities = function(numChanges, value){
+          numChanges = Math.floor(numChanges);  //validate inputs
+          if(numChanges > 0 && numChanges < 101){
+              if(value === true || value === false){
+
+                for(var i=0; i < numChanges; i++){
+                  var randomIndex = Math.floor(Math.random() * 100) + 1;
+                  this.probabilityArray[randomIndex] = value;
+
+                }
+
+              }
+          else{console.log("Change value parameter must be boolean");}}
+          else{console.log("Change quantity out of range");}}
+
+
+
 
         this.printProbabilities = function(){
 
@@ -23,7 +44,10 @@
             console.log("false Count: " + falseCount);
             console.log("true Count: " + trueCount);
             var probabilityRatio = trueCount / falseCount;
-            console.log("Probability Ratio: " + probabilityRatio);}}
+            console.log("Probability Ratio: " + probabilityRatio);}
+        this.getXY = function(){return this.dotCoordinates;}
+
+            }
 
 
     function dotManager(){
@@ -41,9 +65,21 @@
     this.initializeTest = false;
     this.dotaBase = []
 
-    this.newDot = function(){
-        var dotHolder = new dot(); //create new dot
+    this.newDot = function(inX, inY){
+
+      var distanceFromIndex = -1;
+
+//TODO add distance calc 
+      //if(null != dotaBase){
+         //var distX = this.dotaBase[0].getXY();
+        // var distY;
+
+        // distanceFromIndex = Math.sqrt();}
+
+
+        var dotHolder = new dot(inX, inY); //create new dot
         dotHolder.fillArray(); //fill array
+        dotHolder.alterProbabilities(100, true);
         this.dotaBase[this.dotaBase.length] = dotHolder;} //add dot to array
 
     this.getDot = function(index){return this.dotaBase[index];} //TODO validate input
