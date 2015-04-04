@@ -3,7 +3,9 @@
 
         this.probabilityArray = [];
         this.lastActivityLevel = false;
-        this.dotCoordinates = {x:inX, y:inY};
+      //  this.dotCoordinates = {x:inX, y:inY};
+        this.dotCoordinates = {x:inY, y:inX};
+
 
         this.fillArray = function(){
 
@@ -15,8 +17,8 @@
             }}
 
         this.alterProbabilities = function(numChanges, value){
-          numChanges = Math.floor(numChanges);  //validate inputs
-          if(numChanges > 0 && numChanges < 101){
+          numChanges = Math.floor(numChanges);  //validate inputs of both parameters
+          if(numChanges > 0 && numChanges < 1000){
               if(value === true || value === false){
 
                 for(var i=0; i < numChanges; i++){
@@ -61,30 +63,33 @@
           //not it is selected again its next state will be 1 or 3.
           //returns -1 if bad things are happening
 
+    this.counter = 0;
 
     this.initializeTest = false;
-    this.dotaBase = []
+    this.dotaBase = [];
+
 
     this.newDot = function(inX, inY){
 
-        var dotHolder = new dot(inX, inY); //create new dot
-        dotHolder.fillArray(); //fill array
-      //  dotHolder.alterProbabilities(100, true);
-        this.dotaBase[this.dotaBase.length] = dotHolder; //add dot to array
+         this.dotHolder = new dot(inX, inY); //create new dot
+         this.dotHolder.fillArray(); //fill array
+         this.dotaBase[this.dotaBase.length] = this.dotHolder; //add dot to array
+this.counter++;
 
-        var distanceFromIndex = -1;
-
-        if(null != this.dotaBase){
+        if(null != this.dotaBase){ //Index Dot Exists
            var dist = this.dotaBase[0].getXY();
-           var xDist = dist.x - inX;
-           var yDist = dist.y - inY;
 
-           var totalDist = Math.sqrt((xDist*xDist) + (yDist * yDist)); //distance from index dot to individual dot
 
-           if(totalDist <= 2){dotHolder.alterProbabilities(75, true);}
-           else if(totalDist <= 5 && totalDist > 2){dotHolder.alterProbabilities(25, true);}
-           else if(totalDist <= 10 && totalDist > 5){dotHolder.alterProbabilities(5, true);}
-           else{dotHolder.alterProbabilities(10, false);}
+      var xDist = inX;
+      var yDist = dist.y - inY;
+
+     var totalDist = Math.sqrt(((xDist*xDist) + (yDist * yDist)))* 1; //distance from index dot to individual dot
+
+           if(totalDist <= 1){this.dotHolder.alterProbabilities(65, true);} //TODO add support for values greater than 100
+           else if(totalDist <= 3 && totalDist > 1){this.dotHolder.alterProbabilities(50, true);}
+           else if(totalDist <= 5 && totalDist > 2){this.dotHolder.alterProbabilities(30, true);}
+           else if(totalDist <= 10 && totalDist > 5){this.dotHolder.alterProbabilities(15, true);}
+           else{this.dotHolder.alterProbabilities(5, true);}
 
         }
 }
@@ -92,7 +97,7 @@
 
     this.getDotState = function(index){
 
-      var randIndex = Math.floor(Math.random()* 100);
+      var randIndex = Math.floor(Math.random() * 100);
       var dotState = this.getDot(index).probabilityArray[randIndex];
       var lastDotState = this.getDot(index).lastActivityLevel;
 
@@ -111,68 +116,7 @@
 
     }
 
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*  //atempt to read space bar keystoke press
-$( "#target" ).keydown(function() {
-  alert( "Handler for .keydown() called." );
-});
-
-
-
-$( '.input' ).keydown(function(e){
-
-    if( e.keyCode == 32 ){
-        alert( 'space button pressed');
-        console.log( 'space button pressed');
+    this.getSurroundingActivity = function(index){ //returns how many dots surrounding dot[index] have last dot state true
 
     }
-});
-*/
+}

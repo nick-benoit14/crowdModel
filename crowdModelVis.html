@@ -35,7 +35,7 @@
 
         var totalDots = 300;
         var numRows = 15;
-        var numColumns = totalDots/numRows;
+        var numColumns = Math.floor(totalDots/numRows);
 
 //crowdModel.js API-------------------------------------------------------------------
         //var mngr = new dotManager();--constructor
@@ -46,36 +46,32 @@
 
 var mngr = new dotManager();
 
-var xPos = numRows;
-var yPos = numColumns/2 - 1;
-data.add({x:xPos, y:yPos + 2,z:1,filter:tgroup,style:2});
-data.add({x:xPos, y:yPos,z:1,filter:tgroup,style:2});
-data.add({x:xPos, y:yPos - 2,z:1,filter:tgroup,style:2});
-      mngr.newDot(xPos, yPos); //index stage dot should be index of 0 in dotArray[]
 
-for(var rows=0; rows < numRows; rows++){
+var xPos = numRows / 2;
+var yPos = numColumns;
 
-    for(var columns = 0; columns < numColumns; columns++){ //columns
 
-          mngr.newDot(rows, columns);
-          var inIndex = columns * rows; //current value in dotManager.dotArray[]
-          var height = mngr.getDotState(inIndex);
+data.add({x:xPos+1, y:-2,z:1,filter:tgroup,style:2});
+data.add({x:xPos, y:-2,z:1,filter:tgroup,style:2});
+data.add({x:xPos-1, y:-2,z:1,filter:tgroup,style:2});
+
+data.add({x:xPos-1, y:-2,z:30,filter:tgroup,style:1});
+
+
+mngr.newDot(xPos, 0); //index stage dot should be index of 0 in dotArray[]
+
+for(var rows=1; rows < numRows + 1; rows++){
+
+   for(var columns = 1; columns < numColumns + 1; columns++){ //columns
+          mngr.newDot(columns, rows);
+
+          var height = mngr.getDotState(mngr.counter - 1);
 
           data.add({x:rows, y:columns,z:height,filter:tgroup,style:1});
           }
 
       }
 
-
-/*
-        // one or multiple dots moving around the center
-        for (var dot = 0; dot < dotCount; dot++) {
-          var tdot = t + 2*pi * dot / dotCount;
-          data.add( {x:sin(tdot),y:cos(tdot),z:sin(tdot),filter:tgroup,style:value});
-          data.add( {x:sin(tdot),y:-cos(tdot),z:sin(tdot + tmax*1/2),filter:tgroup,style:value});
-        }
-
-*/
 }
 
       // specify options
@@ -101,7 +97,9 @@ for(var rows=0; rows < numRows; rows++){
       // create our graph
       var container = document.getElementById('mygraph');
       graph = new vis.Graph3d(container, data, options);
-      $('body').click(function(){console.log(graph.getCameraPosition());});
+
+      //  $('body').click(function(){......});
+
 }
 
   </script>
