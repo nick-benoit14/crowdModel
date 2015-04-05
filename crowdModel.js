@@ -80,16 +80,16 @@ this.counter++;
            var dist = this.dotaBase[0].getXY();
 
 
-      var xDist = inX;
-      var yDist = dist.y - inY;
+           var xDist = inX;
+           var yDist = dist.y - inY;
 
      var totalDist = Math.sqrt(((xDist*xDist) + (yDist * yDist)))* 1; //distance from index dot to individual dot
 
-           if(totalDist <= 1){this.dotHolder.alterProbabilities(65, true);} //TODO add support for values greater than 100
-           else if(totalDist <= 3 && totalDist > 1){this.dotHolder.alterProbabilities(50, true);}
-           else if(totalDist <= 5 && totalDist > 2){this.dotHolder.alterProbabilities(30, true);}
-           else if(totalDist <= 10 && totalDist > 5){this.dotHolder.alterProbabilities(15, true);}
-           else{this.dotHolder.alterProbabilities(5, true);}
+          // if(totalDist <= 1){this.dotHolder.alterProbabilities(65, true);} //TODO add support for values greater than 100
+          // else if(totalDist <= 3 && totalDist > 1){this.dotHolder.alterProbabilities(40, true);}
+          // else if(totalDist <= 5 && totalDist > 2){this.dotHolder.alterProbabilities(30, true);}
+          // else if(totalDist <= 10 && totalDist > 5){this.dotHolder.alterProbabilities(25, true);}
+          // else{this.dotHolder.alterProbabilities(8, true);}
 
         }
 }
@@ -113,6 +113,44 @@ this.counter++;
         this.getDot(index).lastActivityLevel = true;
         return 2;}
       else{return -1;}
+
+    }
+
+    this.getDotState_Proximity = function(index){
+          var position = {
+            left:false,
+            right:false,
+            above:false,
+            below:false,
+            left_above:false,
+            right_bove:false,
+            left_below:false,
+            right_below:false
+          };
+
+    //test all neighbors
+          //left
+        if(this.getDot(index-1).lastActivityLevel == true){position.left = true;}
+
+
+
+        var randIndex = Math.floor(Math.random() * 100);
+        var dotState = this.getDot(index).probabilityArray[randIndex];
+        var lastDotState = this.getDot(index).lastActivityLevel;
+
+        if(dotState == false){ //state 1
+          this.getDot(index).lastActivityLevel = false;
+          return 1;}
+
+        else if(dotState == true && this.getDot(index).lastActivityLevel == true){ //state 2
+          this.getDot(index).lastActivityLevel = false;
+          return 3;}
+
+        else if(dotState == true){
+          this.getDot(index).lastActivityLevel = true;
+          return 2;}
+        else{return -1;}
+
 
     }
 

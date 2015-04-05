@@ -1,3 +1,5 @@
+//TODO working on adding proximity layer to model.js
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -33,8 +35,8 @@
 
 
 
-        var totalDots = 300;
-        var numRows = 15;
+        var totalDots = 500;
+        var numRows = 30;
         var numColumns = Math.floor(totalDots/numRows);
 
 //crowdModel.js API-------------------------------------------------------------------
@@ -65,7 +67,7 @@ for(var rows=1; rows < numRows + 1; rows++){
    for(var columns = 1; columns < numColumns + 1; columns++){ //columns
           mngr.newDot(columns, rows);
 
-          var height = mngr.getDotState(mngr.counter - 1);
+          var height = mngr.getDotState_Proximity(mngr.counter - 1);
 
           data.add({x:rows, y:columns,z:height,filter:tgroup,style:1});
           }
